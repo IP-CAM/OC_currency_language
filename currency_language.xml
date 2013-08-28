@@ -1,0 +1,27 @@
+<modification>
+
+	<id>Change Currency with language</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>Mte90</author>
+	
+	<file name="catalog/controller/module/language.php">
+		<operation>
+		<search position="after">
+                <![CDATA[$this->session->data['language'] = $this->request->post['language_code'];]]></search>
+			<add><![CDATA[
+				if(isset($this->request->post['currency_code'])) {
+					$this->currency->set($this->request->post['currency_code']); 
+				}
+				else {
+					if($this->session->data['language'] == 'ru') $this->currency->set('RUB');
+					else $this->currency->set('EUR');
+				}
+				unset($this->session->data['shipping_methods']); 
+				unset($this->session->data['shipping_method']); 
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>
+
